@@ -1,5 +1,6 @@
 import math
 import random
+import customtkinter as ctk
 
 # Trial Division Prime Generator
 def generate_primes_trial_division(limit):
@@ -76,14 +77,61 @@ def is_prime_miller_rabin(n, k=10):
 
     return True
 
-# Example usage
-if __name__ == '__main__':
-    # Generate primes up to 50 using trial division
-    primes = generate_primes_trial_division(50)
-    print("Primes up to 50:", primes)
+# GUI Application
+class PrimeApp(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Prime Generator & Tester")
+        self.geometry("600x500")
 
-    # Test some numbers with Miller-Rabin
-    test_numbers = [97, 221, 997, 10007]
-    for num in test_numbers:
-        result = is_prime_miller_rabin(num)
-        print(f"{num} is prime? - {result}")
+        # Generate Primes Section
+        self.gen_label = ctk.CTkLabel(self, text="Generate Primes Up To:")
+        self.gen_label.pack(pady=10)
+
+        self.gen_entry = ctk.CTkEntry(self, placeholder_text="Enter limit (e.g., 100)")
+        self.gen_entry.pack(pady=5)
+
+        self.gen_button = ctk.CTkButton(self, text="Generate Primes", command=self.generate_primes)
+        self.gen_button.pack(pady=10)
+
+        # Test Primality Section
+        self.test_label = ctk.CTkLabel(self, text="Test Number for Primality:")
+        self.test_label.pack(pady=10)
+
+        self.test_entry = ctk.CTkEntry(self, placeholder_text="Enter number (e.g., 97)")
+        self.test_entry.pack(pady=5)
+
+        self.test_button = ctk.CTkButton(self, text="Test with Miller-Rabin", command=self.test_prime)
+        self.test_button.pack(pady=10)
+
+        # Results Textbox
+        self.result_text = ctk.CTkTextbox(self, wrap="word")
+        self.result_text.pack(pady=20, padx=20, fill="both", expand=True)
+
+    def generate_primes(self):
+        try:
+            limit = int(self.gen_entry.get())
+            primes = generate_primes_trial_division(limit)
+            result = f"Primes up to {limit}:\n" + ", ".join(map(str, primes))
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", result)
+        except ValueError:
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "Invalid input. Please enter a number.")
+
+    def test_prime(self):
+        try:
+            num = int(self.test_entry.get())
+            is_prime = is_prime_miller_rabin(num)
+            result = f"{num} is {'probably prime' if is_prime else 'composite'} (Miller-Rabin test)"
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", result)
+        except ValueError:
+            self.result_text.delete("1.0", "end")
+            self.result_text.insert("1.0", "Invalid input. Please enter a number.")
+
+if __name__ == "__main__":
+    ctk.set_appearance_mode("System")
+    ctk.set_default_color_theme("blue")
+    app = PrimeApp()
+    app.mainloop()
