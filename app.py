@@ -9,7 +9,6 @@ window = ctk.CTk()
 window.title("Algorithms Project")
 
 # == Create Widgets == 
-
 # Left Side Widgets (Top Left Area)
 entry_label = ctk.CTkLabel(
     window, 
@@ -56,22 +55,23 @@ graph_test_button = ctk.CTkButton(
 output_box = ctk.CTkTextbox(
     window, 
     width=300, 
-    height=250, 
+    height=50, 
     activate_scrollbars=True)
 
 # == Grid Widgets == 
 
-# Column 0: Label, Entrybox, and 5 buttons
-entry_label.grid(row=0, column=0, pady=(10, 2), padx=20)
-entry.grid(row=1, column=0, pady=(0, 10), padx=20)
-trial_division_button.grid(row=2, column=0, pady=5, padx=20)
-miller_rabin_button.grid(row=3, column=0, pady=5, padx=20)
-sieve_of_eratosthenes_button.grid(row=4, column=0, pady=5, padx=20)
-temp_button.grid(row=5, column=0, pady=5, padx=20)
-graph_test_button.grid(row=6, column=0, pady=5, padx=20)
+# Column 0: Entrybox and 5 buttons (No Label)
+# Row 0: Entry box
+entry.grid(row=0, column=0, pady=(10, 10), padx=20)
+# Rows 1-5: Buttons
+trial_division_button.grid(row=1, column=0, pady=2, padx=20)
+miller_rabin_button.grid(row=2, column=0, pady=2, padx=20)
+sieve_of_eratosthenes_button.grid(row=3, column=0, pady=2, padx=20)
+temp_button.grid(row=4, column=0, pady=2, padx=20)
+graph_test_button.grid(row=5, column=0, pady=2, padx=20) # Row 5
 
 # Column 1: Output Box
-# We use sticky="nsew" so it fills the height created by the buttons
-output_box.grid(row=0, column=1, rowspan=6, padx=20, pady=20, sticky="nsew")
+# Rowspan is set to 6 to cover the entry (1) + buttons (5)
+output_box.grid(row=0, column=1, rowspan=3, padx=20, pady=20, sticky="nsew")
 
 window.mainloop()
