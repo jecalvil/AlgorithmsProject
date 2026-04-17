@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import algorithms
+import time
 
 # Set appearance and theme
 ctk.set_appearance_mode("dark")  
@@ -63,34 +64,62 @@ def update_message(message):
 def run_trial_division():
     n = get_n()
     if n is not None:
+        # Start timer
+        start = time.perf_counter()
         result = algorithms.trialDivisionCheck(n)
+        # End timer
+        end = time.perf_counter()
+        ms = (end - start) * 1000 # calculate time
         # Determine the status
         status = "PRIME" if result else "COMPOSITE"
-        message = f"Result for {n} using Trial Division: {status}"
+        message = f"Execution Time: {ms:.4f} ms\n"
+        message += "-" * 70 + "\n" # Adds a visual divider line
+        message += f"Result for {n} using Trial Division:\n{status}"
         update_message(message)
         
 # Miller Rabin Check Functionality
 def run_miller_rabin():
     n = get_n()
     if n is not None:
+        # Start timer
+        start = time.perf_counter()
         result = algorithms.is_prime_miller_rabin(n)
+        # End timer
+        end = time.perf_counter()
+        ms = (end - start) * 1000 # calculate time
         # Determine the status
         status = "PRIME" if result else "COMPOSITE"
-        message = f"Result for {n} using Miller Rabin: {status}"
+        message = f"Execution Time: {ms:.4f} ms\n"
+        message += "-" * 70 + "\n" # Adds a visual divider line
+        message += f"Result for {n} using Miller Rabin:\n {status}"
         update_message(message)
 # Sieve of Eratosthenes functionality
 def run_soe():
     n = get_n()
     if n is not None:
+        # Start timer
+        start = time.perf_counter()
         result = algorithms.sieveOfEratosthenes(n)
-        message = f"List of Prime Numbers using Sieve of Eratosthenes: {result}"
+        # End timer
+        end = time.perf_counter()
+        ms = (end - start) * 1000 # calculate time
+        message = f"Execution Time: {ms:.4f} ms\n"
+        message += "-" * 70 + "\n" # Adds a visual divider line
+        message += f"List of Prime Numbers using Sieve of Eratosthenes:\n {result}"
         update_message(message)
 # Trial Division Generator (Brute Force)
 def run_trial_division_generator():
     n = get_n()
     if n is not None:
+        # Start timer
+        start = time.perf_counter()
         result = algorithms.trialDivisionGenerator(n)
-        message = f"List of Prime Numbers by brute forcing Trial Division: {result}"
+        # End timer
+        end = time.perf_counter()
+        ms = (end - start) * 1000 # calculate time
+        message = f"Execution Time: {ms:.4f} ms\n"
+        message += "-" * 70 + "\n" # Adds a visual divider line
+        message += f"List of Prime Numbers by brute forcing Trial Division:\n{result}"
         update_message(message)
 
 # Create the buttons
