@@ -64,6 +64,31 @@ def run_trial_division():
         output_box.delete("0.0", "end")        # Clear Box
         output_box.insert("end", message)      # Add the new result
         output_box.configure(state="disabled") # Lock
+# Miller Rabin Check Functionality
+def run_miller_rabin():
+    n = get_n()
+    if n is not None:
+        result = algorithms.is_prime_miller_rabin(n)
+        # Determine the status
+        status = "PRIME" if result else "COMPOSITE"
+        message = f"Result for {n}: {status}"
+        # Update the UI
+        output_box.configure(state="normal")   # Unlock
+        output_box.delete("0.0", "end")        # Clear Box
+        output_box.insert("end", message)      # Add the new result
+        output_box.configure(state="disabled") # Lock
+# Sieve of Eratosthenes functionality
+def run_soe():
+    n = get_n()
+    if n is not None:
+        result = algorithms.sieveOfEratosthenes(n)
+        message = f"List of Prime Numbers: {result}"
+        # Update the UI
+        output_box.configure(state="normal")   # Unlock
+        output_box.delete("0.0", "end")        # Clear Box
+        output_box.insert("end", message)      # Add the new result
+        output_box.configure(state="disabled") # Lock
+
 
 trial_division_button = ctk.CTkButton(
     window,
@@ -76,13 +101,15 @@ miller_rabin_button = ctk.CTkButton(
     window,
     text="Miller Rabin",
     width=200,
-    height=50)
+    height=50,
+    command=run_miller_rabin)
 
 sieve_of_eratosthenes_button = ctk.CTkButton(
     window,
     text="Sieve of Eratosthenes",
     width=200,
-    height=50)
+    height=50,
+    command = run_soe)
 
 temp_button = ctk.CTkButton(
     window,
