@@ -51,6 +51,14 @@ def get_n():
         return int(entry.get()) # Check if integer
     except ValueError:
         return None # Do nothing if not
+# Update texbox helper function
+def update_message(message):
+    # Update the UI
+        output_box.configure(state="normal")   # Unlock
+        output_box.delete("0.0", "end")        # Clear Box
+        output_box.insert("end", message)      # Add the new result
+        output_box.configure(state="disabled") # Lock
+
 # Trial Division Check Functionality
 def run_trial_division():
     n = get_n()
@@ -58,12 +66,9 @@ def run_trial_division():
         result = algorithms.trialDivisionCheck(n)
         # Determine the status
         status = "PRIME" if result else "COMPOSITE"
-        message = f"Result for {n}: {status}"
-        # Update the UI
-        output_box.configure(state="normal")   # Unlock
-        output_box.delete("0.0", "end")        # Clear Box
-        output_box.insert("end", message)      # Add the new result
-        output_box.configure(state="disabled") # Lock
+        message = f"Result for {n} using Trial Division: {status}"
+        update_message(message)
+        
 # Miller Rabin Check Functionality
 def run_miller_rabin():
     n = get_n()
@@ -71,25 +76,24 @@ def run_miller_rabin():
         result = algorithms.is_prime_miller_rabin(n)
         # Determine the status
         status = "PRIME" if result else "COMPOSITE"
-        message = f"Result for {n}: {status}"
-        # Update the UI
-        output_box.configure(state="normal")   # Unlock
-        output_box.delete("0.0", "end")        # Clear Box
-        output_box.insert("end", message)      # Add the new result
-        output_box.configure(state="disabled") # Lock
+        message = f"Result for {n} using Miller Rabin: {status}"
+        update_message(message)
 # Sieve of Eratosthenes functionality
 def run_soe():
     n = get_n()
     if n is not None:
         result = algorithms.sieveOfEratosthenes(n)
-        message = f"List of Prime Numbers: {result}"
-        # Update the UI
-        output_box.configure(state="normal")   # Unlock
-        output_box.delete("0.0", "end")        # Clear Box
-        output_box.insert("end", message)      # Add the new result
-        output_box.configure(state="disabled") # Lock
+        message = f"List of Prime Numbers using Sieve of Eratosthenes: {result}"
+        update_message(message)
+# Trial Division Generator (Brute Force)
+def run_trial_division_generator():
+    n = get_n()
+    if n is not None:
+        result = algorithms.trialDivisionGenerator(n)
+        message = f"List of Prime Numbers by brute forcing Trial Division: {result}"
+        update_message(message)
 
-
+# Create the buttons
 trial_division_button = ctk.CTkButton(
     window,
     text="Trial Division",
@@ -111,11 +115,12 @@ sieve_of_eratosthenes_button = ctk.CTkButton(
     height=50,
     command = run_soe)
 
-temp_button = ctk.CTkButton(
+trial_division_generator_button = ctk.CTkButton(
     window,
-    text="TEMP BUTTON",
+    text="Trial Division Generator (Brute Force)",
     width=200,
-    height=50)
+    height=50,
+    command=run_trial_division_generator)
 
 graph_test_button = ctk.CTkButton(
     window,
@@ -125,14 +130,14 @@ graph_test_button = ctk.CTkButton(
 
 # == Grid Widgets == 
 
-# Column 0: Entrybox and 5 buttons (No Label)
+# Column 0: Entrybox and 5 buttons 
 # Row 0: Entry box
 entry.grid(row=0, column=0, pady=10, padx=20, sticky="nsew")
 # Rows 1-5: Buttons
 trial_division_button.grid(row=1, column=0, pady=2, padx=20, sticky="nsew")
 miller_rabin_button.grid(row=2, column=0, pady=2, padx=20, sticky="nsew")
 sieve_of_eratosthenes_button.grid(row=3, column=0, pady=2, padx=20, sticky="nsew")
-temp_button.grid(row=4, column=0, pady=2, padx=20, sticky="nsew")
+trial_division_generator_button.grid(row=4, column=0, pady=2, padx=20, sticky="nsew")
 graph_test_button.grid(row=5, column=0, pady=2, padx=20, sticky="nsew") # Row 5
 
 # Column 1: Output Box
@@ -140,7 +145,5 @@ graph_test_button.grid(row=5, column=0, pady=2, padx=20, sticky="nsew") # Row 5
 output_box.grid(row=0, column=1, rowspan=3, padx=20, pady=10, sticky="nsew") # Sticky stretches it
 ai_input.grid(row=3, column=1, padx=20, pady=5, sticky="nsew")
 ai_output_box.grid(row=4, column=1, rowspan=4, padx=20, pady=10, sticky="nsew")
-
-    
 
 window.mainloop()
