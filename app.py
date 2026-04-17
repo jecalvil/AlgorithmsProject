@@ -6,10 +6,11 @@ ctk.set_default_color_theme("green")
 
 # Create Window
 window = ctk.CTk()
-window.title("Algorithms Project")
+window.title("Algorithms Project") # Set title
 
 # == Create Widgets == 
-# Left Side Widgets (Top Left Area)
+
+# Left Side Widgets 
 entry_label = ctk.CTkLabel(
     window, 
     text="Enter Integer", 
@@ -50,28 +51,46 @@ graph_test_button = ctk.CTkButton(
     width=200,
     height=50)
 
-# Right Side Widget (Top-Right Area)
-# ctk.CTkTextbox is the modern equivalent of tk.Text
+# Right Side Widgets
+
+# Output box for algorithms
 output_box = ctk.CTkTextbox(
     window, 
     width=300, 
     height=50, 
-    activate_scrollbars=True)
+    activate_scrollbars=True,
+    state="disabled") # No typing allowed
+
+# Entry box for AI
+ai_input = ctk.CTkEntry(
+    window, 
+    placeholder_text="Enter Prompt: ",
+    width=200)
+
+# Output box for AI
+ai_output_box = ctk.CTkTextbox(
+    window, 
+    width=300, 
+    height=75, 
+    activate_scrollbars=True,
+    state="disabled") # No typing allowed
 
 # == Grid Widgets == 
 
 # Column 0: Entrybox and 5 buttons (No Label)
 # Row 0: Entry box
-entry.grid(row=0, column=0, pady=(10, 10), padx=20)
+entry.grid(row=0, column=0, pady=10, padx=20, sticky="nsew")
 # Rows 1-5: Buttons
-trial_division_button.grid(row=1, column=0, pady=2, padx=20)
-miller_rabin_button.grid(row=2, column=0, pady=2, padx=20)
-sieve_of_eratosthenes_button.grid(row=3, column=0, pady=2, padx=20)
-temp_button.grid(row=4, column=0, pady=2, padx=20)
-graph_test_button.grid(row=5, column=0, pady=2, padx=20) # Row 5
+trial_division_button.grid(row=1, column=0, pady=2, padx=20, sticky="nsew")
+miller_rabin_button.grid(row=2, column=0, pady=2, padx=20, sticky="nsew")
+sieve_of_eratosthenes_button.grid(row=3, column=0, pady=2, padx=20, sticky="nsew")
+temp_button.grid(row=4, column=0, pady=2, padx=20, sticky="nsew")
+graph_test_button.grid(row=5, column=0, pady=2, padx=20, sticky="nsew") # Row 5
 
 # Column 1: Output Box
 # Rowspan is set to 6 to cover the entry (1) + buttons (5)
-output_box.grid(row=0, column=1, rowspan=3, padx=20, pady=20, sticky="nsew")
+output_box.grid(row=0, column=1, rowspan=3, padx=20, pady=10, sticky="nsew") # Sticky stretches it
+ai_input.grid(row=3, column=1, padx=20, pady=5, sticky="nsew")
+ai_output_box.grid(row=4, column=1, rowspan=4, padx=20, pady=10, sticky="nsew")
 
 window.mainloop()
