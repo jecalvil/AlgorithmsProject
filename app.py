@@ -3,6 +3,8 @@ import algorithms
 import time
 import matplotlib.pyplot as plt
 import random
+from ai import get_ai_response
+import threading
 
 # Set appearance and theme
 ctk.set_appearance_mode("dark")  
@@ -32,9 +34,38 @@ ai_input = ctk.CTkEntry(
 ai_output_box = ctk.CTkTextbox(
     window, 
     width=300, 
-    height=75, 
+    height=150, 
     activate_scrollbars=True,
     state="disabled") # No typing allowed
+
+# Handle AI input/output
+def run_ai(prompt):
+    # Get response from ai
+    response = get_ai_response(prompt)
+    # Update UI with answer
+    ai_output_box.configure(state="normal")
+    ai_output_box.insert("end", f"AI Math Wizard: {response}\n\n")
+    ai_output_box.configure(state="disabled")
+    ai_output_box.see("end")
+
+
+def handle_input(event=None):
+    # Get input from entry box
+    user_input = ai_input.get()
+    # Do nothing if empty
+    if not user_input.strip():
+        return
+    # Show message in output box
+    ai_output_box.configure(state="normal") # enable it
+    ai_output_box.insert("end", f"Algorithm Learner: {user_input}\n")
+    # Clear entry box
+    ai_input.delete(0, 'end')
+    ai_output_box.configure(state="disabled")
+    ai_output_box.see("end")
+    # Start AI in background
+    threading.Thread(target=run_ai, args=(user_input,), daemon=True).start()
+
+ai_input.bind("<Return>", handle_input)
 
 # == Left Side Widgets ==
 entry_label = ctk.CTkLabel(
@@ -220,7 +251,7 @@ graph_test_button = ctk.CTkButton(
 
 # == Grid Widgets == 
 
-# Column 0: Entrybox and 5 buttons 
+# Column 0: 1 Entrybox and 5 buttons 
 # Row 0: Entry box
 entry.grid(row=0, column=0, pady=10, padx=20, sticky="nsew")
 # Rows 1-5: Buttons
