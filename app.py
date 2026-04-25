@@ -155,11 +155,11 @@ def run_trial_division_generator():
         message += "-" * 70 + "\n" # Adds a visual divider line
         message += f"List of Prime Numbers by brute forcing Trial Division:\n{result}"
         update_message(message)
-# Create Plot
+# Create Plot - Also serves as our random number generator
 def run_performance_test():
     # 50 FIXED PRIMES (Checkers: 5M to 50M)
     # Worst-case for Trial Division
-    n_checkers = [
+    n_checkers_full = [
         5000011, 5918417, 6836819, 7755293, 8673737, 9592189, 10510607, 11429063,
         12347489, 13265933, 14184379, 15102821, 16021271, 16939723, 17858173, 18776611,
         19695067, 20613511, 21531971, 22450417, 23368861, 24287311, 25205759, 26124217,
@@ -168,6 +168,8 @@ def run_performance_test():
         41737873, 42656321, 43574771, 44493223, 45411677, 46330121, 47248577, 48167023,
         49085471, 50000017
     ]
+    # pick random 25 large prime numbers
+    n_checkers = sorted(random.sample(n_checkers_full, 30))
     # Random ranges (Generators: 1k to 30k)
     n_generators = sorted([random.randint(1000, 30000) for i in range(30)]) # sort so the plot is nice
     # Time containers
@@ -192,16 +194,16 @@ def run_performance_test():
     # Plotting
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
     # Left: Checkers (Worst-case performance)
-    ax1.plot(n_checkers[2:], check_times[2:], label=r"Trial Div (Worst Case $n^{1/2}$)", color="blue", marker='o', markersize=4)
-    ax1.plot(n_checkers[2:], miller_times[2:], label=r"Miller-Rabin (Worst Case $n^{1/3}$)", color="green", marker='o', markersize=4)
-    ax1.set_title("Checkers: Fixed Primes (5M - 50M)")
+    ax1.plot(n_checkers[2:], check_times[2:], label=r"Trial Div", color="blue", marker='o', markersize=4)
+    ax1.plot(n_checkers[2:], miller_times[2:], label=r"Miller-Rabin", color="green", marker='o', markersize=4)
+    ax1.set_title("Checkers: Random Primes (5M - 50M)")
     ax1.set_xlabel("Value of n")
     ax1.set_ylabel("Time (ms)")
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
     # Right: Generators (Random Ranges)
-    ax2.plot(n_generators, sieve_times, label="Sieve (O(n log log n))", color="purple")
+    ax2.plot(n_generators, sieve_times, label="Sieve", color="purple")
     ax2.plot(n_generators, gen_times, label="Trial Div Gen", color="red")
     ax2.set_title("Generators: Random Ranges (1k - 30k)")
     ax2.set_xlabel("Range up to n")
@@ -244,7 +246,7 @@ trial_division_generator_button = ctk.CTkButton(
 
 graph_test_button = ctk.CTkButton(
     window,
-    text="Graph All",
+    text="Graph All - Random Test",
     width=200,
     height=50,
     command=run_performance_test)
